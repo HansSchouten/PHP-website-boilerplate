@@ -1,0 +1,15 @@
+<IfModule mod_rewrite.c>
+	# Turn mod_rewrite on
+	RewriteEngine On
+	RewriteBase /
+
+	# http to https
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
+
+	RewriteCond %{THE_REQUEST} /public/([^\s?]*) [NC]
+	RewriteRule ^ %1 [L,NE,R=302]
+
+	RewriteCond %{REQUEST_URI} !^/public/
+	RewriteRule (.*) public/$1 [L]
+</IfModule>
