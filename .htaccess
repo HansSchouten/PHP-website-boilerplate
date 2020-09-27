@@ -3,6 +3,11 @@
 	RewriteEngine On
 	RewriteBase /
 
+    # Redirect non-www. to www. (except when on a subdomain)
+    RewriteCond %{HTTP_HOST} !^www\.
+    RewriteCond %{HTTP_HOST} !^(.*)\.(.*)\. [NC]
+    RewriteRule ^ https://www.%{HTTP_HOST}/$1 [R=301,L]
+
 	# http to https
     RewriteCond %{HTTPS} !=on
     RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
